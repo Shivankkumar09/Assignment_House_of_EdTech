@@ -26,6 +26,7 @@ interface EditorProps {
   ydoc: Y.Doc;
   provider: WebsocketProvider;
   editable: boolean;
+  awarenessUser: { name: string; color: string };
   onEditorReady?: (editor: ReturnType<typeof useEditor>) => void;
 }
 
@@ -58,28 +59,42 @@ function ToolbarButton({
   );
 }
 
-export default function Editor({ ydoc, provider, editable, onEditorReady }: EditorProps) {
+export default function Editor({ ydoc, provider, editable, awarenessUser, onEditorReady }: EditorProps) {
   // Local-only undo/redo history, scoped to this client's own edits — this
   // is Yjs's UndoManager, distinct from the permanent, shared version
   // history stored on the backend (see VersionHistoryPanel).
   const undoManager = useMemo(() => new Y.UndoManager(ydoc.getXmlFragment("content")), [ydoc]);
 
+  const extensions = useMemo(
+    () => [
+      StarterKit.configure({ history: false }),
+      Collaboration.configure({ document: ydoc, field: "content" }),
+      CollaborationCursor.configure({
+        provider,
+        user: awarenessUser,
+      }),
+      Placeholder.configure({ placeholder: "Start writing…" }),
+    ],
+    [ydoc, provider, awarenessUser]
+  );
+
   const editor = useEditor(
     {
-      extensions: [
-        StarterKit.configure({ history: false }),
-        Collaboration.configure({ document: ydoc, field: "content" }),
-        CollaborationCursor.configure({ provider }),
-        Placeholder.configure({ placeholder: "Start writing…" }),
-      ],
+      extensions,
       editable,
       immediatelyRender: false,
       editorProps: {
         attributes: { class: "doc-prose max-w-none focus:outline-none" },
       },
     },
-    [ydoc]
+    [extensions]
   );
+
+  useEffect(() => {
+    if (editor) {
+      editor.commands.updateUser(awarenessUser);
+    }
+  }, [editor, awarenessUser]);
 
   useEffect(() => {
     if (editor) onEditorReady?.(editor);

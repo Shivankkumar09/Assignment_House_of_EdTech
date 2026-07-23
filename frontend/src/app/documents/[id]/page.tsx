@@ -39,10 +39,11 @@ function DocumentEditorContent() {
   const [inviteMsg, setInviteMsg] = useState<string | null>(null);
   const [editorInstance, setEditorInstance] = useState<TiptapEditor | null>(null);
 
-  const awarenessUser = useMemo(
-    () => (user ? { name: user.name, color: colorForUser(user.id) } : null),
-    [user]
-  );
+  const awarenessUser = useMemo(() => {
+    if (!user) return null;
+    const name = user.name?.trim() || user.email.split("@")[0] || "Anonymous";
+    return { name, color: colorForUser(user.id) };
+  }, [user]);
 
   const { ydoc, provider, status } = useYjsDocument(id, token, awarenessUser);
 
@@ -155,7 +156,13 @@ function DocumentEditorContent() {
               <div className="h-8 w-8 animate-spin rounded-full border-2 border-ink-200 border-t-signal" />
             </div>
           ) : (
-            <Editor ydoc={ydoc} provider={provider} editable={canEdit} onEditorReady={setEditorInstance} />
+            <Editor
+              ydoc={ydoc}
+              provider={provider}
+              editable={canEdit}
+              awarenessUser={awarenessUser!}
+              onEditorReady={setEditorInstance}
+            />
           )}
         </div>
 
