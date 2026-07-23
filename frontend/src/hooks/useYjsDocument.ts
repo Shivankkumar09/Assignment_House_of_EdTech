@@ -18,7 +18,7 @@ interface UseYjsDocumentResult {
   status: SyncState;
 }
 
-const WS_URL = "ws://assignment-house-of-edtech.onrender.com/collab";
+const WS_URL = "wss://assignment-house-of-edtech.onrender.com/collab";
 
 /**
  * Local-first collaborative document primitive.
