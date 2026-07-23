@@ -18,7 +18,7 @@ interface UseYjsDocumentResult {
   status: SyncState;
 }
 
-const WS_URL = process.env.NEXT_PUBLIC_WS_URL || "ws://localhost:4000/collab";
+const WS_URL = "ws://assignment-house-of-edtech.onrender.com/collab";
 
 /**
  * Local-first collaborative document primitive.
