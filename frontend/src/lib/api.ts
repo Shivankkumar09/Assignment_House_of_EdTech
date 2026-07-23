@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { AuthResponse, DocumentSummary, DocumentVersion } from "@/types";
+import { getApiUrl } from "@/lib/env";
 
-const API_URL = "https://assignment-house-of-edtech.onrender.com/api";
+const API_URL = getApiUrl();
 
 export const client = axios.create({
   baseURL: API_URL,

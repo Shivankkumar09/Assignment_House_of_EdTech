@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import * as Y from "yjs";
 import { IndexeddbPersistence } from "y-indexeddb";
 import { WebsocketProvider } from "y-websocket";
+import { getWsUrl } from "@/lib/env";
 
 export interface SyncState {
   indexedDbSynced: boolean; // local cache loaded — editor is usable even fully offline
@@ -17,8 +18,6 @@ interface UseYjsDocumentResult {
   provider: WebsocketProvider | null;
   status: SyncState;
 }
-
-const WS_URL = "wss://assignment-house-of-edtech.onrender.com/collab";
 
 /**
  * Local-first collaborative document primitive.
@@ -55,7 +54,7 @@ export function useYjsDocument(
       setStatus((s) => ({ ...s, indexedDbSynced: true }));
     });
 
-    const wsProvider = new WebsocketProvider(WS_URL, docId, doc, {
+    const wsProvider = new WebsocketProvider(getWsUrl(), docId, doc, {
       params: token ? { token } : {},
       connect: true,
     });
