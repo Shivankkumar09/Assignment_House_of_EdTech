@@ -11,10 +11,11 @@ export function createApp(): Application {
   const app = express();
 
   app.use(
-    cors({
-      origin: process.env.CLIENT_ORIGIN || "https://assignment-house-of-ed-tech-4ecz98jxv.vercel.app/",
-      credentials: true,
-    })
+   cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
   );
   app.use(express.json({ limit: "2mb" })); // version snapshots are base64 and can be a few hundred KB
   app.use(morgan("dev"));
