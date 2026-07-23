@@ -14,7 +14,7 @@ const errorHandler_1 = require("./middleware/errorHandler");
 function createApp() {
     const app = (0, express_1.default)();
     app.use((0, cors_1.default)({
-        origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+        origin: process.env.CLIENT_ORIGIN || "https://assignment-house-of-ed-tech-4ecz98jxv.vercel.app/",
         credentials: true,
     }));
     app.use(express_1.default.json({ limit: "2mb" })); // version snapshots are base64 and can be a few hundred KB
