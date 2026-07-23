@@ -45,7 +45,7 @@ export function useYjsDocument(
   });
 
   useEffect(() => {
-    if (!docId || !user) return;
+    if (!docId || !user || !token) return;
 
     const doc = new Y.Doc();
 
@@ -55,12 +55,12 @@ export function useYjsDocument(
     });
 
     const wsProvider = new WebsocketProvider(getWsUrl(), docId, doc, {
-      params: token ? { token } : {},
+      params: { token },
       connect: true,
     });
 
     wsProvider.awareness.setLocalStateField("user", {
-      name: user.name,
+      name: user.name?.trim() || "Anonymous",
       color: user.color,
     });
 

@@ -9,6 +9,10 @@ interface Peer {
   color: string;
 }
 
+function nameInitial(name: string): string {
+  return (name.charAt(0) || "?").toUpperCase();
+}
+
 export default function PresenceBar({ provider }: { provider: WebsocketProvider }) {
   const [peers, setPeers] = useState<Peer[]>([]);
 
@@ -16,10 +20,14 @@ export default function PresenceBar({ provider }: { provider: WebsocketProvider 
     const update = () => {
       const states = provider.awareness.getStates();
       const list: Peer[] = [];
-      states.forEach((state: any, clientId: number) => {
-        if (state.user) {
-          list.push({ clientId, name: state.user.name, color: state.user.color });
-        }
+      states.forEach((state: { user?: { name?: string; color?: string } }, clientId: number) => {
+        const name = state.user?.name?.trim();
+        if (!name) return;
+        list.push({
+          clientId,
+          name,
+          color: state.user?.color ?? "#888888",
+        });
       });
       setPeers(list);
     };
@@ -39,7 +47,7 @@ export default function PresenceBar({ provider }: { provider: WebsocketProvider 
           className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-[11px] font-semibold text-white shadow-sm"
           style={{ backgroundColor: p.color }}
         >
-          {p.name.slice(0, 1).toUpperCase()}
+          {nameInitial(p.name)}
         </div>
       ))}
       {peers.length > 5 && (

@@ -26,7 +26,7 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
               className="flex h-7 w-7 items-center justify-center rounded-full bg-signal-soft text-xs font-semibold text-signal-dark"
               title={user.name}
             >
-              {user.name.slice(0, 1).toUpperCase()}
+              {(user.name?.charAt(0) ?? "?").toUpperCase()}
             </div>
             <span className="hidden text-sm text-ink-600 md:inline">{user.name}</span>
           </div>
