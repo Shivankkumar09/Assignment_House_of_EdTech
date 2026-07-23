@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+}
+
+html,
+body {
+  background-color: #f7f8fa;
+  color: #1b1c22;
+}
+
+/* ---- Collaborative cursor styles (rendered by y-prosemirror decorations) ---- */
+.collaboration-cursor__caret {
+  position: relative;
+  margin-left: -1px;
+  margin-right: -1px;
+  border-left: 1.5px solid;
+  border-right: 1.5px solid;
+  word-break: normal;
+  pointer-events: none;
+}
+
+.collaboration-cursor__label {
+  position: absolute;
+  top: -1.35em;
+  left: -1.5px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  white-space: nowrap;
+  border-radius: 3px 3px 3px 0;
+  padding: 2px 6px;
+  user-select: none;
+}
+
+/* ---- Tiptap document body ---- */
+.doc-prose {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.75;
+  color: #25262e;
+}
+
+.doc-prose h1 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 1.4em 0 0.5em;
+}
+
+.doc-prose h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.2em 0 0.5em;
+}
+
+.doc-prose p {
+  margin: 0.6em 0;
+}
+
+.doc-prose ul,
+.doc-prose ol {
+  padding-left: 1.4em;
+  margin: 0.6em 0;
+}
+
+.doc-prose li {
+  margin: 0.2em 0;
+}
+
+.doc-prose blockquote {
+  border-left: 3px solid #dcdee6;
+  padding-left: 1em;
+  color: #494b58;
+  font-style: italic;
+}
+
+.doc-prose code {
+  background: #eef0f4;
+  border-radius: 3px;
+  padding: 0.15em 0.4em;
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+.doc-prose pre {
+  background: #1b1c22;
+  color: #eef0f4;
+  border-radius: 8px;
+  padding: 0.9em 1em;
+  overflow-x: auto;
+}
+
+.doc-prose pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.doc-prose:focus {
+  outline: none;
+}
+
+.doc-prose p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #b3b7c6;
+  pointer-events: none;
+  height: 0;
+}
