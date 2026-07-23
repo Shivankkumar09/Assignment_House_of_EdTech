@@ -12,7 +12,7 @@ export function createApp(): Application {
 
   app.use(
     cors({
-      origin: process.env.CLIENT_ORIGIN || "http://localhost:3000",
+      origin: process.env.CLIENT_ORIGIN || "https://assignment-house-of-ed-tech-4ecz98jxv.vercel.app/",
       credentials: true,
     })
   );
